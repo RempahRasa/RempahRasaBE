@@ -1,0 +1,29 @@
+{
+  "name": "rempahrasabe",
+  "version": "1.0.0",
+  "author": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@types/express": "^4.17.21",
+    "eslint": "9.x",
+    "globals": "^15.3.0",
+    "nodemon": "^3.1.1",
+    "typescript-eslint": "^7.10.0"
+  },
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "start": "node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ts-node": "^10.9.2",
+    "zod": "^3.23.8"
+  }
+}
