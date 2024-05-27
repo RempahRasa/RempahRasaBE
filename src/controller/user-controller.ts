@@ -1,10 +1,14 @@
 import { registerUser } from '../service/user/register';
+import { MiddlewareRequest, MultipartRequest } from '../interface/controller-interface';
 import loginService from '../service/user/login-service';
-import { MiddlewareRequest } from '../interface/controller-interface';
 
-const register = async ({ req, res, next }: MiddlewareRequest) => {
+const register = async ({ req, res, next }: MultipartRequest) => {
   try {
-    const result = await registerUser(req?.body);
+    const formData = {
+      ...req.body,
+      image: req?.file
+    };
+    const result = await registerUser(formData);
     res.status(200).json(result);
   } catch (error) {
     next(error);
