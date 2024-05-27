@@ -1,11 +1,11 @@
-import { ResponseError } from '../error/response-error';
+import { ZodSchema } from 'zod';
 
-const validate = (schema, request) => {
-  const result = schema.validate(request);
+const validate = <T>(schema: ZodSchema<T>, request: unknown): T => {
+  const result = schema.safeParse(request);
   if (result.error) {
-    throw new ResponseError(400, result.error.message);
+    throw new Error(result.error.message);
   } else {
-    return result.value;
+    return result.data;
   }
 };
 
