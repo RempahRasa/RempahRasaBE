@@ -3,6 +3,7 @@ import { register, loginController } from '../controller/user-controller';
 
 import multer from 'multer';
 import { MulterRequest } from '../interface/request-interface';
+
 const upload = multer();
 const publicRouter = express.Router();
 
