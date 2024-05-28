@@ -1,6 +1,6 @@
-import { Request } from "express";
+import { Request } from 'express';
 
-export interface requestSignupInterface {
+export interface RequestSignupInterface {
   firstName: string;
   image?: File;
   password: string;
@@ -14,5 +14,5 @@ export interface requestLoginInterface {
 }
 
 export interface MulterRequest extends Request {
-  file: any;
+  image: File;
 }
