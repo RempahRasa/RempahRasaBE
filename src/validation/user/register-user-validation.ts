@@ -12,9 +12,15 @@ const registerUserValidation = z.object({
     .any()
     .optional()
     .refine((file) => {
+      if (!file) {
+        return true;
+      }
       return file.size < FILESIZE, 'file size too large';
     })
     .refine((file) => {
+      if (!file) {
+        return true;
+      }
       return ACCEPTED_IMAGE_TYPES.includes(file.mimetype), 'only jpeg, jpg, png, webp allowed';
     })
 });
