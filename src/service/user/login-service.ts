@@ -8,7 +8,7 @@ import { db } from '../../app/firestore';
 
 const loginService = async (request: requestLoginInterface) => {
   const validateUser = validate(loginUserValidation, request);
-  
+
   if (validateUser) {
     const userCollection = db.collection('users');
     const user = await userCollection.where('email', '==', validateUser.email).get();
@@ -33,14 +33,14 @@ const loginService = async (request: requestLoginInterface) => {
     const newUser = {
       accessToken,
       accessTokenExpires
-    }
+    };
     const userLogin = await userCollection.doc(userDoc.id).update(newUser);
     if (userLogin) {
       return {
         accessToken
       };
-    } 
+    }
   }
 };
 
-export default { loginService };
+export { loginService };
