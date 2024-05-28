@@ -8,7 +8,7 @@ const loginController = async ({ req, res, next }: MiddlewareFunction) => {
       data: result
     });
   } catch (error) {
-    throw error;
+    next(error);
   }
 };
 
