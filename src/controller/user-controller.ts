@@ -20,13 +20,14 @@ const register = async ({ req, res, next }: MultipartRequest) => {
     if (uploadFile) {
       await updateImageField(uploadFile.cloudStoragePublicUrl, result.id);
     }
+    let emailStatus: boolean;
     if (result.verificationToken) {
-      await sendVerificationEmail(result.email, result.verificationToken);
+      emailStatus = await sendVerificationEmail(result.email, result.verificationToken);
     }
     res.status(200).json({
       message: {
-        user: result,
-        mail: 'Verification email sent successfully'
+        user: result.massage,
+        mail: emailStatus ? 'Email sent successfully' : 'Email not sent'
       }
     });
   } catch (error) {
