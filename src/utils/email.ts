@@ -12,15 +12,14 @@ const sendVerificationEmail = async (email: string, verificationToken: string) =
     from: process.env.NODEMAILER_APP_EMAIL,
     to: email,
     subject: 'Please Verify email to Sign in into our app',
-    html: `<a href="http://localhost:3000/verification?token=${verificationToken}">Click here to verify your email</a>`
+    html: `<a href="${process.env.DEPLOYED_URL}/verification?token=${verificationToken}">Click here to verify your email</a>`
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return false;
-    } else {
-      return true;
+      return error;
     }
+    return info.response;
   });
 };
 

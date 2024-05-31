@@ -23,7 +23,12 @@ const register = async ({ req, res, next }: MultipartRequest) => {
     if (result.verificationToken) {
       await sendVerificationEmail(result.email, result.verificationToken);
     }
-    res.status(200).json({ message: 'User registered successfully' });
+    res.status(200).json({
+      message: {
+        user: result,
+        mail: 'Verification email sent successfully'
+      }
+    });
   } catch (error) {
     next(error);
   }
