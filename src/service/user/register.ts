@@ -1,5 +1,5 @@
 import { ResponseError } from '../../error/response-error';
-import { RequestSignupInterface } from '../../interface/request-interface';
+import { RequestSignupInterface } from '../../interface/request';
 import { generateToken } from '../../utils/token';
 import { registerUserValidation } from '../../validation/user/register-user-validation';
 import { validate } from '../../validation/validation';
@@ -10,7 +10,7 @@ import { db } from '../../app/firestore';
 const registerUser = async (request: RequestSignupInterface) => {
   const validatedUser = validate(registerUserValidation, request);
   if (validatedUser) {
-    const result = await getUserByEmail(validatedUser.email);
+    const { result} = await getUserByEmail(validatedUser.email);
     if (result.length > 0) {
       throw new ResponseError(409, 'Email already registered');
     }
