@@ -31,7 +31,12 @@ const registerUser = async (request: RequestSignupInterface) => {
     };
     const userRegistered = await userCollections.add(newUser);
     if (userRegistered) {
-      return { id: userRegistered.id, verificationToken, email: newUser.email };
+      return {
+        id: userRegistered.id,
+        verificationToken,
+        email: newUser.email,
+        massage: 'User registered successfully'
+      };
     }
   }
 };

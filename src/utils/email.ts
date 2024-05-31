@@ -1,5 +1,9 @@
 import * as nm from 'nodemailer';
-const sendVerificationEmail = async (email: string, verificationToken: string) => {
+import { promisify } from 'util';
+const sendVerificationEmail = async (
+  email: string,
+  verificationToken: string
+): Promise<boolean> => {
   const transporter = nm.createTransport({
     service: 'gmail',
     auth: {
@@ -14,13 +18,13 @@ const sendVerificationEmail = async (email: string, verificationToken: string) =
     subject: 'Please Verify email to Sign in into our app',
     html: `<a href="${process.env.DEPLOYED_URL}/verification?token=${verificationToken}">Click here to verify your email</a>`
   };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return error;
-    }
-    return info.response;
-  });
+  const sendMail = promisify(transporter.sendMail.bind(transporter));
+  try {
+    await sendMail(mailOptions);
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 export { sendVerificationEmail };
