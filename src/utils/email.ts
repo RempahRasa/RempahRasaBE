@@ -9,8 +9,8 @@ const sendVerificationEmail = async (email: string, verificationToken: string) =
   });
 
   const mailOptions = {
-    from: 'daffaputranarendra9@gmail.com',
-    to: 'reqyan1103@gmail.com',
+    from: process.env.NODEMAILER_APP_EMAIL,
+    to: email,
     subject: 'Please Verify email to Sign in into our app',
     html: `<a href="http://localhost:3000/verification?token=${verificationToken}">Click here to verify your email</a>`
   };
