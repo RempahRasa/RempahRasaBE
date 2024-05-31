@@ -1,21 +1,16 @@
-// import { db } from '../../app/firestore';
-import { db } from '../../app/firestore';
 import { ResponseError } from '../../error/response-error';
 import { RequestSignupInterface } from '../../interface/request-interface';
 import { generateToken } from '../../utils/token';
 import { registerUserValidation } from '../../validation/user/register-user-validation';
 import { validate } from '../../validation/validation';
 import bcrypt from 'bcryptjs';
+import { getUserByEmail } from '../../utils/getUserByEmail';
+import { db } from '../../app/firestore';
 
 const registerUser = async (request: RequestSignupInterface) => {
   const validatedUser = validate(registerUserValidation, request);
   if (validatedUser) {
-    const userCollections = db.collection('users');
-    const user = await userCollections.where('email', '==', validatedUser.email).get();
-    const result = user.docs.map((doc) => {
-      const data = doc.data();
-      return data;
-    });
+    const result = await getUserByEmail(validatedUser.email);
     if (result.length > 0) {
       throw new ResponseError(409, 'Email already registered');
     }
@@ -29,6 +24,8 @@ const registerUser = async (request: RequestSignupInterface) => {
       verificationTokenExpires,
       verified: false
     };
+
+    const userCollections = db.collection('users');
     const userRegistered = await userCollections.add(newUser);
     if (userRegistered) {
       return {
