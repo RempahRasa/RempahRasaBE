@@ -1,9 +1,9 @@
 import { registerUser } from '../service/user/register';
-import { MiddlewareRequest, MultipartRequest } from '../interface/controller-interface';
+import { MiddlewareRequest, MultipartRequest } from '../interface/controller';
 import { loginService } from '../service/user/login-service';
 import { uploadProfileToGcs } from '../utils/saveImage';
 import { updateImageField } from '../utils/updateImageField';
-import { FileUploadReturnInterface } from '../interface/return-interface';
+import { FileUploadReturnInterface } from '../interface/return';
 import { sendVerificationEmail } from '../utils/email';
 
 const register = async ({ req, res, next }: MultipartRequest) => {

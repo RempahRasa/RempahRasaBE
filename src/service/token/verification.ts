@@ -33,10 +33,5 @@ const verificationService = async (token: string) => {
     }
     throw new ResponseError(401, 'Verification Token is unavailable');
 }
-    
-// Mengambil verificationToken (/verivication/:token)
-// Mencari user dengan verificationToken yang diberikan
-// mengecek verificationTokenExpires
-// Bila semua aman, maka verified true
 
 export {verificationService};
