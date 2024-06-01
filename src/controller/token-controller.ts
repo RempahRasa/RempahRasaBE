@@ -2,14 +2,13 @@ import { verificationService } from '../service/token/verification';
 import { MiddlewareRequest } from '../interface/controller';
 import { resendTokenByEmail } from '../service/token/resend-token';
 import { sendVerificationEmail } from '../utils/email';
+import * as path from 'path';
 
 const tokenController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
     const token = req.query.token;
     const result = await verificationService(token as string);
-    res.status(200).json({
-      data: result
-    });
+    res.status(200).sendFile(path.join(__dirname, '../response/success-verification.html'))
   } catch (error) {
     next(error);
   }
