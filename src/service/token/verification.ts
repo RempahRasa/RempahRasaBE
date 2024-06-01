@@ -1,6 +1,7 @@
 import { ResponseError } from '../../error/response-error';
 import { db } from '../../app/firestore';
 import { FieldValue } from '@google-cloud/firestore';
+import { VerificationResponseError } from '../../error/response-error-page';
 
 const verificationService = async (token: string) => {
     if(token) {
@@ -11,14 +12,14 @@ const verificationService = async (token: string) => {
             return data;
         });
         if (result.length <= 0) {
-            throw new ResponseError(401, 'Verification Token is wrong');
+            throw new VerificationResponseError(401, 'Verification Token is wrong', '../response/failed-verification.html');
         }
         const userDoc = user.docs[0];
         const userData = userDoc.data();
         const verificationTokenExpires = userData.verificationTokenExpires;
         const currentDate = new Date();
         if (verificationTokenExpires < currentDate) {
-            throw new ResponseError(401, 'Verification Token is expired');
+            throw new VerificationResponseError(401, 'Verification Token is expired', '../response/failed-verification.html');
         }
         const newUser = {
             verified: true

@@ -2,8 +2,7 @@ import express from 'express';
 import { register, loginController } from '../controller/user-controller';
 import multer from 'multer';
 import { MulterRequest } from '../interface/request';
-import { resendToken } from '../controller/token-controller';
-import { tokenController } from '../controller/token-controller';
+import { resendToken,  tokenController} from '../controller/token-controller';
 
 const upload = multer();
 const publicRouter = express.Router();
