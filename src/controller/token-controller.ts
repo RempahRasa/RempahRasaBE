@@ -1,6 +1,7 @@
 import { verificationService } from '../service/token/verification';
 import { MiddlewareRequest } from '../interface/controller';
 import { resendTokenByEmail } from '../service/token/resend-token';
+import { sendVerificationEmail } from '../utils/email';
 
 const tokenController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
@@ -17,8 +18,14 @@ const tokenController = async ({ req, res, next }: MiddlewareRequest) => {
 const resendToken = async ({ req, res, next }: MiddlewareRequest) => {
   try {
     const result = await resendTokenByEmail(req?.body.email);
+    let emailStatus: boolean;
+    if (result.status === 200) {
+      emailStatus = await sendVerificationEmail(result.email, result.verificationToken);
+    }
     res.status(200).json({
-      data: result
+      message: {
+        mail: emailStatus ? result.message : 'Token cannot be sent, please try again later'
+      }
     });
   } catch (error) {
     next(error);

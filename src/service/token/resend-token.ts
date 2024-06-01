@@ -17,17 +17,17 @@ const resendTokenByEmail = async (email: string) => {
     }
     const verificationToken = generateToken();
     const verificationTokenExpires = new Date().setMinutes(new Date().getMinutes() + 10);
-    try {
-      const userCollections = db.collection('users');
-      await userCollections
-        .doc(user.docs[0].id)
-        .update({ verificationToken, verificationTokenExpires });
+    const userCollections = db.collection('users');
+    const updatedUser = await userCollections
+      .doc(user.docs[0].id)
+      .update({ verificationToken, verificationTokenExpires });
+    if (updatedUser) {
       return {
+        status: 200,
         email: validatedEmail,
-        message: 'Token sent successfully'
+        verificationToken,
+        message: 'New token sent successfully'
       };
-    } catch (error) {
-      return new ResponseError(500, 'Can not update token');
     }
   }
 };
