@@ -1,5 +1,5 @@
 import { ResponseError } from '../../error/response-error';
-import { requestLoginInterface } from '../../interface/request-interface';
+import { requestLoginInterface } from '../../interface/request';
 import { loginUserValidation } from '../../validation/user/user-validation';
 import { validate } from '../../validation/validation';
 import { generateToken } from '../../utils/token';

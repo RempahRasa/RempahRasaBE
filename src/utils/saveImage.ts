@@ -1,6 +1,6 @@
 import { gcs } from '../app/storage';
 import { v4 as uuid } from 'uuid';
-import { MulterRequest } from '../interface/request-interface';
+import { MulterRequest } from '../interface/request';
 const uploadProfileToGcs = async (req: MulterRequest) => {
   if (req.file) {
     const bucketName = process.env.PUBLIC_BUCKET_NAME;
