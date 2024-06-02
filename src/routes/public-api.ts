@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerController, loginController } from '../controller/user-controller';
+import { registerController, loginController } from '../controller/auth-controller';
 
 import multer from 'multer';
 import { MulterRequest } from '../interface/request';
