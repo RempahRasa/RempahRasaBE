@@ -8,7 +8,7 @@ export interface RequestSignupInterface {
   lastName: string;
 }
 
-export interface requestLoginInterface {
+export interface RequestLoginInterface {
   email: string;
   password: string;
 }

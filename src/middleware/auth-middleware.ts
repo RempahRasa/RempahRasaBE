@@ -24,7 +24,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
       .end();
       return;
   } else {
-    const { user, result } = await getUserByToken(accessToken);
+    const { result } = await getUserByToken(accessToken);
     if (result.length < 1) {
       res
         .status(401)
@@ -32,6 +32,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
           errors: 'Unauthorized'
         })
         .end();
+      return;
     } else {
       const accessTokenExpires = result[0].accessToken;
       const currentDate = new Date();

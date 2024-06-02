@@ -1,13 +1,14 @@
-import { registerUser } from '../service/user/register';
 import { MiddlewareRequest, MultipartRequest } from '../interface/controller';
+import { registerUser } from '../service/user/register-service';
 import { loginService } from '../service/user/login-service';
 import { uploadProfileToGcs } from '../utils/saveImage';
 import { updateImageField } from '../utils/updateImageField';
 import { FileUploadReturnInterface } from '../interface/return';
 import { sendVerificationEmail } from '../utils/email';
 import { getProfileService } from '../service/user/profile-service';
+import { logout } from '../service/user/logout-service';
 
-const register = async ({ req, res, next }: MultipartRequest) => {
+const registerController = async ({ req, res, next }: MultipartRequest) => {
   try {
     const formData = {
       ...req.body,
@@ -49,9 +50,9 @@ const loginController = async ({ req, res, next }: MiddlewareRequest) => {
 
 const logoutController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    // const result = await logout(req);
+    const result = await logout(req);
     res.status(200).json({
-      // data: result
+      data: result
     });
   } catch (error) {
     next(error);
@@ -67,6 +68,6 @@ const getProfileController = async ({ req, res, next }: MiddlewareRequest) => {
   } catch (error) {
     next(error);
   }
-}
+};
 
-export { register, loginController, logoutController, getProfileController };
+export { registerController, loginController, logoutController, getProfileController };

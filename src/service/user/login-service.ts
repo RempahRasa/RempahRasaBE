@@ -1,12 +1,12 @@
 import { ResponseError } from '../../error/response-error';
-import { requestLoginInterface } from '../../interface/request';
+import { RequestLoginInterface } from '../../interface/request';
 import { loginUserValidation } from '../../validation/user/user-validation';
 import { validate } from '../../validation/validation';
 import { generateToken } from '../../utils/token';
 import bcrypt from 'bcryptjs';
 import { db } from '../../app/firestore';
 
-const loginService = async (request: requestLoginInterface) => {
+const loginService = async (request: RequestLoginInterface) => {
   const validateUser = validate(loginUserValidation, request);
 
   if (validateUser) {
