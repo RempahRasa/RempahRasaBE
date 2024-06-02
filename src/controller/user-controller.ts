@@ -5,6 +5,7 @@ import { uploadProfileToGcs } from '../utils/saveImage';
 import { updateImageField } from '../utils/updateImageField';
 import { FileUploadReturnInterface } from '../interface/return';
 import { sendVerificationEmail } from '../utils/email';
+import { getProfileService } from '../service/user/profile-service';
 
 const register = async ({ req, res, next }: MultipartRequest) => {
   try {
@@ -46,4 +47,26 @@ const loginController = async ({ req, res, next }: MiddlewareRequest) => {
   }
 };
 
-export { register, loginController };
+const logoutController = async ({ req, res, next }: MiddlewareRequest) => {
+  try {
+    // const result = await logout(req);
+    res.status(200).json({
+      // data: result
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getProfileController = async ({ req, res, next }: MiddlewareRequest) => {
+  try {
+    const result = await getProfileService(req, res, next);
+    res.status(200).json({
+      data: result
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export { register, loginController, logoutController, getProfileController };
