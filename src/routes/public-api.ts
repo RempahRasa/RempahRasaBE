@@ -1,5 +1,6 @@
 import express from 'express';
-import { register, loginController } from '../controller/user-controller';
+import { registerController, loginController } from '../controller/user-controller';
+
 import multer from 'multer';
 import { MulterRequest } from '../interface/request';
 import { resendToken,  tokenController} from '../controller/token-controller';
@@ -9,7 +10,7 @@ const publicRouter = express.Router();
 
 publicRouter.post('/login', (req, res, next) => loginController({ req, res, next }));
 publicRouter.post('/register', upload.single('image'), (req: MulterRequest, res, next) => {
-  register({ req, res, next });
+  registerController({ req, res, next });
 });
 publicRouter.get('/verification', (req, res, next) => {
   tokenController({ req, res, next });
