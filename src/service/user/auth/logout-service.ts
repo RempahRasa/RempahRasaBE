@@ -1,6 +1,6 @@
 import { Request } from 'express';
-import { db } from '../../app/firestore';
-import { getUserByToken } from '../../utils/getUserByToken';
+import { db } from '../../../app/firestore';
+import { getUserByToken } from '../../../utils/getUserByToken';
 import { FieldValue } from '@google-cloud/firestore';
 
 const logout = async (request: Request) => {

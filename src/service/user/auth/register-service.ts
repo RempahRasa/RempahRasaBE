@@ -1,11 +1,11 @@
-import { ResponseError } from '../../error/response-error';
-import { RequestSignupInterface } from '../../interface/request';
-import { generateToken } from '../../utils/token';
-import { registerUserValidation } from '../../validation/user/register-user-validation';
-import { validate } from '../../validation/validation';
+import { ResponseError } from '../../../error/response-error';
+import { RequestSignupInterface } from '../../../interface/request';
+import { generateToken } from '../../../utils/token';
+import { registerUserValidation } from '../../../validation/user/register-user-validation';
+import { validate } from '../../../validation/validation';
 import bcrypt from 'bcryptjs';
-import { getUserByEmail } from '../../utils/getUserByEmail';
-import { db } from '../../app/firestore';
+import { getUserByEmail } from '../../../utils/getUserByEmail';
+import { db } from '../../../app/firestore';
 
 const registerUser = async (request: RequestSignupInterface) => {
   const validatedUser = validate(registerUserValidation, request);
