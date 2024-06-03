@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { getUserByToken } from "../../utils/getUserByToken";
-import { ResponseError } from '../../error/response-error';
+import { getUserByToken } from "../../../utils/getUserByToken";
+import { ResponseError } from '../../../error/response-error';
 
 const getProfileService = async (req: Request, res: Response, next: NextFunction) => {
     const bearerToken = req.get('Authorization');
