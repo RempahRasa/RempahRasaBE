@@ -1,25 +1,26 @@
 import { validate } from '../../validation/validation';
 import { emailValidation } from '../../validation/user/email-validation';
-import { getUserByEmail } from '../../utils/getUserByEmail';
+import { getUserByEmail } from '../../utils/user/getUserByEmail';
 import { ResponseError } from '../../error/response-error';
 import { generateToken } from '../../utils/token';
-import { db } from '../../app/firestore';
+import { userCollection } from '../../app/firestore';
 
 const resendTokenByEmail = async (email: string) => {
   const validatedEmail = validate(emailValidation, email);
   if (validatedEmail) {
-    const { user, result } = await getUserByEmail(validatedEmail);
-    if (result.length < 1) {
+    const { userData } = await getUserByEmail(validatedEmail);
+    if (!userData) {
       throw new ResponseError(404, "Email doesn't exist");
     }
-    if (result[0].verified) {
+    if (userData.verified) {
       throw new ResponseError(400, 'Email already verified');
     }
+
     const verificationToken = generateToken();
     const verificationTokenExpires = new Date().setMinutes(new Date().getMinutes() + 10);
-    const userCollections = db.collection('users');
-    const updatedUser = await userCollections
-      .doc(user.docs[0].id)
+
+    const updatedUser = await userCollection
+      .doc(userData.id)
       .update({ verificationToken, verificationTokenExpires });
     if (updatedUser) {
       return {

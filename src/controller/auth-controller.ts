@@ -49,7 +49,7 @@ const loginController = async ({ req, res, next }: MiddlewareRequest) => {
 
 const logoutController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    const result = await logout(req);
+    const result = await logout(req, res);
     res.status(200).json({
       data: result
     });
@@ -57,7 +57,5 @@ const logoutController = async ({ req, res, next }: MiddlewareRequest) => {
     next(error);
   }
 };
-
-
 
 export { registerController, loginController, logoutController };

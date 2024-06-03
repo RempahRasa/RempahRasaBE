@@ -1,14 +1,13 @@
-import { Request } from 'express';
-import { db } from '../../../app/firestore';
-import { getUserByToken } from '../../../utils/getUserByToken';
+import { Request, Response } from 'express';
+import { userCollection } from '../../../app/firestore';
+import { getUserByToken } from '../../../utils/user/getUserByToken';
 import { FieldValue } from '@google-cloud/firestore';
+import { getTokenFromHeader } from '../../../utils/token';
 
-const logout = async (request: Request) => {
-  const bearerToken = request.get('Authorization');
-  const accessToken = bearerToken.split(' ')[1];
-  const { user, result } = await getUserByToken(accessToken);
-  const userCollections = db.collection('users');
-  await userCollections.doc(user.docs[0].id).update({
+const logout = async (request: Request, res: Response) => {
+  const accessToken = getTokenFromHeader(request, res);
+  const { userData } = await getUserByToken(accessToken);
+  await userCollection.doc(userData.id).update({
     accessTokenExpires: FieldValue.delete(),
     accessToken: FieldValue.delete()
   });
