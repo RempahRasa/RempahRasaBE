@@ -8,7 +8,10 @@ const tokenController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
     const token = req.query.token;
     const result = await verificationService(token as string);
-    res.status(200).sendFile(path.join(__dirname, '../response/success-verification.html'))
+    if (result) {
+      res.status(200).sendFile(path.join(__dirname, '../response/success-verification.html'));
+      return;
+    }
   } catch (error) {
     next(error);
   }
@@ -26,6 +29,7 @@ const resendToken = async ({ req, res, next }: MiddlewareRequest) => {
         mail: emailStatus ? result.message : 'Token cannot be sent, please try again later'
       }
     });
+    return;
   } catch (error) {
     next(error);
   }
