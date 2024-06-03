@@ -4,19 +4,22 @@ import { generateToken } from '../../../utils/token';
 import { registerUserValidation } from '../../../validation/user/register-user-validation';
 import { validate } from '../../../validation/validation';
 import bcrypt from 'bcryptjs';
-import { getUserByEmail } from '../../../utils/getUserByEmail';
-import { db } from '../../../app/firestore';
+import { getUserByEmail } from '../../../utils/user/getUserByEmail';
+import { userCollection } from '../../../app/firestore';
 
 const registerUser = async (request: RequestSignupInterface) => {
   const validatedUser = validate(registerUserValidation, request);
   if (validatedUser) {
-    const { result } = await getUserByEmail(validatedUser.email);
-    if (result.length > 0) {
+    const { userData } = await getUserByEmail(validatedUser.email);
+
+    if (userData) {
       throw new ResponseError(409, 'Email already registered');
     }
+
     validatedUser.password = await bcrypt.hash(validatedUser.password, 10);
     const verificationToken = generateToken();
     const verificationTokenExpires = new Date().setMinutes(new Date().getMinutes() + 10);
+
     const userId = crypto.randomUUID();
     const createdDate = new Date().toISOString();
 
@@ -30,8 +33,7 @@ const registerUser = async (request: RequestSignupInterface) => {
       createdAt: createdDate
     };
 
-    const userCollections = db.collection('users');
-    const userRegistered = await userCollections.doc(userId).set(newUser);
+    const userRegistered = await userCollection.doc(userId).set(newUser);
     if (userRegistered) {
       return {
         id: userId,
