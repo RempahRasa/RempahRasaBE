@@ -3,10 +3,18 @@ import { registerController, loginController } from '../controller/auth-controll
 
 import multer from 'multer';
 import { MulterRequest } from '../interface/request';
-import { resendToken,  tokenController} from '../controller/token-controller';
+import { resendToken, tokenController } from '../controller/token-controller';
 
 const upload = multer();
 const publicRouter = express.Router();
+
+publicRouter.get('/', (req, res) => {
+  res.send('Welcome to Rempah Rasa API!');
+});
+
+publicRouter.use((req, res) => {
+  res.status(404).send('Route is not available');
+});
 
 publicRouter.post('/login', (req, res, next) => loginController({ req, res, next }));
 publicRouter.post('/register', upload.single('image'), (req: MulterRequest, res, next) => {
