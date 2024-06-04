@@ -16,7 +16,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node -r dotenv/config src/index.ts",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "@types/nodemailer": "^6.4.15",
     "@types/uuid": "^9.0.8",
     "bcryptjs": "^2.4.3",
+    "bun": "^1.1.12",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "multer": "^1.4.5-lts.1",
