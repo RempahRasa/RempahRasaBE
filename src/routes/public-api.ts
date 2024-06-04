@@ -12,9 +12,6 @@ publicRouter.get('/', (req, res) => {
   res.send('Welcome to Rempah Rasa API!');
 });
 
-publicRouter.use((req, res) => {
-  res.status(404).send('Route is not available');
-});
 
 publicRouter.post('/login', (req, res, next) => loginController({ req, res, next }));
 publicRouter.post('/register', upload.single('image'), (req: MulterRequest, res, next) => {
@@ -24,5 +21,6 @@ publicRouter.get('/verification', (req, res, next) => {
   tokenController({ req, res, next });
 });
 publicRouter.put('/resend-token', (req, res, next) => resendToken({ req, res, next }));
+
 
 export { publicRouter };
