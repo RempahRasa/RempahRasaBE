@@ -6,15 +6,12 @@ import { getTokenFromHeader } from '../utils/token';
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const bearerToken = getTokenFromHeader(req, res);
+  if (!bearerToken) {
+    return false;
+  }
   const { userData } = await getUserByToken(bearerToken);
   if (!userData) {
-    res
-      .status(401)
-      .json({
-        errors: 'Unauthorized'
-      })
-      .end();
-    return;
+    return false;
   } else {
     const accessTokenExpires = userData.accessToken;
     const currentDate = new Date();
@@ -23,15 +20,9 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
         accessTokenExpires: FieldValue.delete(),
         accessToken: FieldValue.delete()
       });
-      res
-        .status(401)
-        .json({
-          errors: 'Unauthorized'
-        })
-        .end();
-      return;
+      return false;
     }
-    next();
+    return true;
   }
 };
 
