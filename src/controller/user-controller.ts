@@ -1,43 +1,33 @@
-import { registerUser } from '../service/user/register';
-import { MiddlewareRequest, MultipartRequest } from '../interface/controller-interface';
-import { loginService } from '../service/user/login-service';
-import { uploadProfileToGcs } from '../utils/saveImage';
-import { updateImageField } from '../utils/updateImageField';
-import { FileUploadReturnInterface } from '../interface/return-interface';
-import { sendVerificationEmail } from '../utils/email';
+import { ResponseError } from '../error/response-error';
+import { MiddlewareRequest } from '../interface/controller';
+import { authMiddleware } from '../middleware/auth-middleware';
+import { getHistoryService } from '../service/user/profile/history-service';
+import { getProfileService } from '../service/user/profile/profile-service';
 
-const register = async ({ req, res, next }: MultipartRequest) => {
+const getProfileController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    const formData = {
-      ...req.body,
-      image: req?.file
-    };
-    const result = await registerUser(formData);
-    let uploadFile: FileUploadReturnInterface;
-    if (req.file) {
-      uploadFile = await uploadProfileToGcs(req);
+    const checkAuth = await authMiddleware(req, res, next);
+    if (!checkAuth) {
+      throw new ResponseError(401, 'Unauthorized');
     }
-    if (uploadFile) {
-      await updateImageField(uploadFile.cloudStoragePublicUrl, result.id);
+    const result = await getProfileService(req, res);
+    if (result) {
+      res.status(200).json({
+        data: result
+      });
     }
-    let emailStatus: boolean;
-    if (result.verificationToken) {
-      emailStatus = await sendVerificationEmail(result.email, result.verificationToken);
-    }
-    res.status(200).json({
-      message: {
-        user: result.massage,
-        mail: emailStatus ? 'Email sent successfully' : 'Email not sent'
-      }
-    });
   } catch (error) {
     next(error);
   }
 };
 
-const loginController = async ({ req, res, next }: MiddlewareRequest) => {
+const getHistoriesController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    const result = await loginService(req?.body);
+    const checkAuth = await authMiddleware(req, res, next);
+    if (!checkAuth) {
+      throw new ResponseError(401, 'Unauthorized');
+    }
+    const result = await getHistoryService(req, res);
     res.status(200).json({
       data: result
     });
@@ -45,5 +35,4 @@ const loginController = async ({ req, res, next }: MiddlewareRequest) => {
     next(error);
   }
 };
-
-export { register, loginController };
+export { getProfileController, getHistoriesController };

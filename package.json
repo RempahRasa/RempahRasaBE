@@ -16,7 +16,7 @@
   "license": "ISC",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "ts-node src/index.ts",
+    "start": "ts-node -r dotenv/config src/index.ts",
     "lint": "eslint ."
   },
   "dependencies": {

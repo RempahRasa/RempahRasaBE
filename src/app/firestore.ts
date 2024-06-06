@@ -5,3 +5,5 @@ export const db = new Firestore({
   keyFilename: process.env.KEY_PATH,
   databaseId: process.env.DATABASE_ID
 });
+
+export const userCollection = db.collection('users');

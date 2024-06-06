@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { MulterRequest } from './request-interface';
+import { MulterRequest } from './request';
 
 export interface MiddlewareRequest {
   req: Request;
