@@ -1,7 +1,7 @@
 // import { db } from '../../app/firestore';
 import { db } from '../../app/firestore';
 import { ResponseError } from '../../error/response-error';
-import { RequestSignupInterface } from '../../interface/request-interface';
+import { RequestSignupInterface } from '../../interface/request';
 import { generateToken } from '../../utils/token';
 import { registerUserValidation } from '../../validation/user/register-user-validation';
 import { validate } from '../../validation/validation';
