@@ -6,6 +6,8 @@ import { updateImageField } from '../utils/updateImageField';
 import { FileUploadReturnInterface } from '../interface/return';
 import { sendVerificationEmail } from '../utils/email';
 import { logout } from '../service/user/auth/logout-service';
+import { authMiddleware } from '../middleware/auth-middleware';
+import { ResponseError } from '../error/response-error';
 
 const registerController = async ({ req, res, next }: MultipartRequest) => {
   try {
@@ -49,6 +51,10 @@ const loginController = async ({ req, res, next }: MiddlewareRequest) => {
 
 const logoutController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
+    const checkAuth = await authMiddleware(req, res, next);
+    if (!checkAuth) {
+      throw new ResponseError(401, 'Unauthorized');
+    }
     const result = await logout(req, res);
     res.status(200).json({
       data: result
