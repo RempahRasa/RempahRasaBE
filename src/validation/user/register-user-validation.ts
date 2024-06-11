@@ -16,18 +16,23 @@ const registerUserValidation = z.object({
   image: z
     .any()
     .optional()
-    .refine((file) => {
-      if (!file) {
+    .refine(
+      (file) => {
+        if (!file) {
+          return false;
+        }
+        if (file.size >= FILESIZE) {
+          return false;
+        }
+        if (!ACCEPTED_IMAGE_TYPES.includes(file.mimetype)) {
+          return false;
+        }
         return true;
+      },
+      {
+        message: 'file size over 5mb or only jpeg, jpg, png, allowed'
       }
-      return file.size < FILESIZE, 'file size too large';
-    })
-    .refine((file) => {
-      if (!file) {
-        return true;
-      }
-      return ACCEPTED_IMAGE_TYPES.includes(file.mimetype), 'only jpeg, jpg, png, webp allowed';
-    })
+    )
 });
 
 export { registerUserValidation };
