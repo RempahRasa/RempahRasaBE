@@ -1,13 +1,12 @@
 import { gcs } from '../app/storage';
 import { v4 as uuid } from 'uuid';
 import { MulterRequest } from '../interface/request';
-const uploadProfileToGcs = async (req: MulterRequest) => {
+const saveImageToGcs = async (req: MulterRequest, bucketName: string, folderName: string) => {
   if (req.file) {
-    const bucketName = process.env.PUBLIC_BUCKET_NAME;
     const bucket = gcs.bucket(bucketName);
     const gcsName = uuid().toString();
 
-    const objectName = `${process.env.PROFILE_IMAGE_FOLDER}/${gcsName}`;
+    const objectName = `${folderName}/${gcsName}`;
     const file = bucket.file(objectName);
 
     const stream = file.createWriteStream({
@@ -39,4 +38,4 @@ const getPublicUrl = (bucketName: string, fileName: string) => {
   return `https://storage.googleapis.com/${bucketName}/${fileName}`;
 };
 
-export { uploadProfileToGcs };
+export { saveImageToGcs };

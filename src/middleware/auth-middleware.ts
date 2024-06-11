@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import {  Request, Response } from 'express';
 import { getUserByToken } from '../utils/user/getUserByToken';
 import { userCollection } from '../app/firestore';
 import { FieldValue } from '@google-cloud/firestore';
 import { getTokenFromHeader } from '../utils/token';
 
-const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = async (req: Request, res: Response) => {
   const bearerToken = getTokenFromHeader(req, res);
   if (!bearerToken) {
     return false;
