@@ -7,3 +7,6 @@ export const db = new Firestore({
 });
 
 export const userCollection = db.collection('users');
+export const historyCollection = async (userId: string) => {
+  return await userCollection.doc(userId).collection('history');
+};
