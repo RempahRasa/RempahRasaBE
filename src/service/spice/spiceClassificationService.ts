@@ -11,18 +11,14 @@ export const spiceClassificationService = async (image: Buffer, model) => {
       .decodeImage(image)
       .resizeNearestNeighbor([224, 224])
       .toFloat()
-      .expandDims(0);
-
-    // console.table(model.getWeights());
+      .expandDims(0)
+      .div(tf.scalar(255.0));
 
     const prediction = await model.predict(tensor);
-    const score = await prediction.data();
     const classResult = prediction.argMax(1).dataSync()[0];
 
-    console.log(CLASSLIST[classResult]);
     return CLASSLIST[classResult];
   } catch (error) {
-    console.log(error.message);
     throw new ResponseError(500, error.message);
   }
 };
