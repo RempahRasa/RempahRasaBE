@@ -6,7 +6,7 @@ import { getProfileService } from '../service/user/profile/profile-service';
 
 const getProfileController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    const checkAuth = await authMiddleware(req, res, next);
+    const checkAuth = await authMiddleware(req, res);
     if (!checkAuth) {
       throw new ResponseError(401, 'Unauthorized');
     }
@@ -23,7 +23,7 @@ const getProfileController = async ({ req, res, next }: MiddlewareRequest) => {
 
 const getHistoriesController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    const checkAuth = await authMiddleware(req, res, next);
+    const checkAuth = await authMiddleware(req, res);
     if (!checkAuth) {
       throw new ResponseError(401, 'Unauthorized');
     }

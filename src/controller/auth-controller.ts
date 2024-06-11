@@ -1,7 +1,7 @@
 import { MiddlewareRequest, MultipartRequest } from '../interface/controller';
 import { registerUser } from '../service/user/auth/register-service';
 import { loginService } from '../service/user/auth/login-service';
-import { uploadProfileToGcs } from '../utils/saveImage';
+import { saveImageToGcs } from '../utils/saveImage';
 import { updateImageField } from '../utils/updateImageField';
 import { FileUploadReturnInterface } from '../interface/return';
 import { sendVerificationEmail } from '../utils/email';
@@ -18,7 +18,11 @@ const registerController = async ({ req, res, next }: MultipartRequest) => {
     const result = await registerUser(formData);
     let uploadFile: FileUploadReturnInterface;
     if (req.file) {
-      uploadFile = await uploadProfileToGcs(req);
+      uploadFile = await saveImageToGcs(
+        req,
+        process.env.PUBLIC_BUCKET_NAME,
+        process.env.PROFILE_IMAGE_FOLDER
+      );
     }
     if (uploadFile) {
       await updateImageField(uploadFile.cloudStoragePublicUrl, result.id);
@@ -27,7 +31,7 @@ const registerController = async ({ req, res, next }: MultipartRequest) => {
     if (result.verificationToken) {
       emailStatus = await sendVerificationEmail(result.email, result.verificationToken);
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: {
         user: result.massage,
         mail: emailStatus ? 'Email sent successfully' : 'Email not sent'
@@ -51,7 +55,7 @@ const loginController = async ({ req, res, next }: MiddlewareRequest) => {
 
 const logoutController = async ({ req, res, next }: MiddlewareRequest) => {
   try {
-    const checkAuth = await authMiddleware(req, res, next);
+    const checkAuth = await authMiddleware(req, res);
     if (!checkAuth) {
       throw new ResponseError(401, 'Unauthorized');
     }
