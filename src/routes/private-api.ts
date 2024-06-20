@@ -16,6 +16,7 @@ privateRouter.delete('/favorites', (req, res, next) => removeFavoriteController(
 privateRouter.get('/favorites', (req, res, next) => getFavoriteController({ req, res, next }));
 
 
+
 // Model
 privateRouter.post('/prediction', upload.single('image'), (req: MulterRequest, res, next) =>
   spiceClassificationController({ req, res, next })
