@@ -7,7 +7,6 @@ import { getHistoryById } from "../../../utils/getHistoryById";
 import { FieldValue } from "@google-cloud/firestore";
 import { favoriteValidation } from "../../../validation/user/favorite-validation";
 import { validate } from "../../../validation/validation";
-import { getHistoryService } from "./history-service";
 
 type FavoriteType = "add" | "remove";
 
