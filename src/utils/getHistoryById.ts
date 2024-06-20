@@ -1,5 +1,4 @@
 import { userCollection } from "../app/firestore";
-import { ResponseError } from "../error/response-error";
 const getHistoryById = async (userId: string, historyId: string) => {
     const historyCollection = await userCollection.doc(userId).collection('history').where("id", "==", historyId).get();
     const history = historyCollection.docs.map((doc) => {
