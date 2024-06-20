@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/auth-middleware';
 import { createSpiceHistory } from '../service/spice/createSpiceHistory';
 import { spiceClassificationService } from '../service/spice/spiceClassificationService';
 import { saveImageToGcs } from '../utils/saveImage';
-import { spiceClassificationValidation } from '../validation/prediction/spiceClassificationValidation';
+import { spiceClassificationValidation } from '../validation/prediction/spice-classification-validation';
 import { validate } from '../validation/validation';
 
 export const spiceClassificationController = async ({ req, res, next }: MultipartRequest) => {
