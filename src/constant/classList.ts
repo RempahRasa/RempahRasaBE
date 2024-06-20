@@ -30,5 +30,4 @@ export const CLASSLIST = [
   'serai',
   'vanili',
   'wijen',
-  'Default'
 ];

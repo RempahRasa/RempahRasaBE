@@ -1,13 +1,16 @@
 import { recipeCollection } from "../../app/firestore";
+import { CLASSLIST } from "../../constant/classList";
 import { ResponseError } from '../../error/response-error';
 
 const getRecipeClassification = async (spice: string, ingredient: string) => {
+    if (!CLASSLIST.includes(spice.toLocaleLowerCase())) {
+        throw new ResponseError(400, 'Invalid Spice');
+    }
     const recipesData = await recipeCollection
+        .where('ingredients_cleaned', 'array-contains-any', [spice.toLowerCase()])
         .where('category', '==', ingredient.toLowerCase())
-        .where("loves", ">", 0)
-        .where('ingredients_cleaned', '>=', 'a' + spice.toLowerCase())
-        .where('ingredients_cleaned', '<', spice.toLowerCase() + 'z')
         .orderBy("loves", "desc")
+        .where("loves", ">", 0)
         .limit(10)
         .get();
 

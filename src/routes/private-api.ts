@@ -13,7 +13,8 @@ privateRouter.get('/profile', (req, res, next) => getProfileController({ req, re
 privateRouter.get('/histories', (req, res, next) => getHistoriesController({ req, res, next }));
 privateRouter.put('/favorites', (req, res, next) => saveFavoriteController({ req, res, next }));
 privateRouter.delete('/favorites', (req, res, next) => removeFavoriteController({ req, res, next }));
-privateRouter.get('/getFavorites', (req, res, next) => getFavoriteController({ req, res, next }));
+privateRouter.get('/favorites', (req, res, next) => getFavoriteController({ req, res, next }));
+
 
 
 // Model
