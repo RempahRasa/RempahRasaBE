@@ -1,7 +1,7 @@
 import * as tf from '@tensorflow/tfjs-node';
 
 async function loadModel() {
-  const model = await tf.loadLayersModel(tf.io.fileSystem(process.env.MODEL_PATH));
+  const model = await tf.loadLayersModel(process.env.MODEL_URL);
   return model;
 }
 export { loadModel };
