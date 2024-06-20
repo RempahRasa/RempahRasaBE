@@ -4,6 +4,7 @@ import { getFavoriteController, getHistoriesController, getProfileController, re
 import { spiceClassificationController } from '../controller/spice-controller';
 import { MulterRequest } from '../interface/request';
 import multer from 'multer';
+import { recipeClassificationController, recipeDetailClassificationController } from '../controller/recipe-controller';
 
 const privateRouter = express.Router();
 const upload = multer();
@@ -14,9 +15,11 @@ privateRouter.put('/favorites', (req, res, next) => saveFavoriteController({ req
 privateRouter.delete('/favorites', (req, res, next) => removeFavoriteController({ req, res, next }));
 privateRouter.get('/getFavorites', (req, res, next) => getFavoriteController({ req, res, next }));
 
+
 // Model
 privateRouter.post('/prediction', upload.single('image'), (req: MulterRequest, res, next) =>
   spiceClassificationController({ req, res, next })
 );
-
+privateRouter.get('/recipe', (req, res, next) => { recipeClassificationController({ req, res, next }) });
+privateRouter.get('/recipe-detail', (req, res, next) => { recipeDetailClassificationController({ req, res, next }) });
 export { privateRouter };

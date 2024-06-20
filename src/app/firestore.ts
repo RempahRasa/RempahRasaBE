@@ -7,6 +7,7 @@ export const db = new Firestore({
 });
 
 export const userCollection = db.collection('users');
+export const recipeCollection = db.collection('recipes');
 export const historyCollection =  (userId: string) => {
   return userCollection.doc(userId).collection('history');
 };
