@@ -10,10 +10,15 @@ export const recipeClassificationController = async ({ req, res, next }) => {
         if (!checkAuth) {
             throw new ResponseError(401, 'Unauthorized');
         }
-        const requestBody = req.body;
-        const validatedIngredients = validate(recipeClassificationValidation, requestBody);
+        const ingredientParams = req.query.ingredient;
+        const spiceParams = req.query.spice;
+        const paramsObject = {
+            ingredient: ingredientParams,
+            spice: spiceParams
+        };
+        const validatedIngredients = validate(recipeClassificationValidation, paramsObject);
         if (validatedIngredients) {
-            const result = await getRecipeClassification(requestBody.spice, requestBody.ingredient);
+            const result = await getRecipeClassification(spiceParams, ingredientParams);
             if (result !== undefined) {
                 return res.status(200).json({
                     data: result
